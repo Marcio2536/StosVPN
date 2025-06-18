@@ -54,9 +54,7 @@ class TunnelManager: ObservableObject {
         Bundle.main.bundleIdentifier!.appending(".TunnelProv")
     }
     
-    import SwiftUI
-
-    enum TunnelStatus {
+    enum TunnelStatus: String {
         case disconnected
         case connecting
         case connected
@@ -615,7 +613,8 @@ struct StatItemView: View {
 // MARK: - Updated SettingsView
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
-    @AppStorage("selectedLanguage") private var selectedLanguage = Locale.current.languageCode ?? "en"
+    @AppStorage("selectedLanguage")
+    private var selectedLanguage = Locale.current.language.languageCode?.identifier ?? "en"
     @AppStorage("TunnelDeviceIP") private var deviceIP = "10.7.0.0"
     @AppStorage("TunnelFakeIP") private var fakeIP = "10.7.0.1"
     @AppStorage("TunnelSubnetMask") private var subnetMask = "255.255.255.0"
@@ -680,13 +679,12 @@ struct SettingsView: View {
 
                 Section(header: Text("language")) {
                     Picker("language", selection: $selectedLanguage) {
-                        Text("English").tag(0)
-                        Text("Spanish").tag(1)
-                        Text("Italian").tag(2)
+                        Text("English").tag("en")
+                        Text("Spanish").tag("es")
+                        Text("Italian").tag("it")
                     }
                     .onChange(of: selectedLanguage) { newValue in
-                        let languageCode = ["en", "es", "it"][newValue]
-                        LanguageManager().updateLanguage(to: languageCode)
+                        LanguageManager().updateLanguage(to: newValue)
                     }
                 }
             }
@@ -971,7 +969,7 @@ struct SetupPageView: View {
 }
 
 class LanguageManager: ObservableObject {
-    @Published var currentLanguage: String = Locale.current.languageCode ?? "en"
+    @Published var currentLanguage: String = Locale.current.language.languageCode?.identifier ?? "en"
     
     private let supportedLanguages = ["en", "es", "it"]
     
