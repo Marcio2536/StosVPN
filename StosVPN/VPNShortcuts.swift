@@ -45,15 +45,15 @@ struct VPNShortcuts: AppShortcutsProvider {
         [
             AppShortcut(
                 intent: StartVPNIntent(),
-                phrases: ["Start VPN in \(appname)"]
+                phrases: ["Start VPN in StosVPN"]
             ),
             AppShortcut(
                 intent: StopVPNIntent(),
-                phrases: ["Stop VPN in \(appname)"]
+                phrases: ["Stop VPN in StosVPN"]
             ),
             AppShortcut(
                 intent: ToggleVPNIntent(),
-                phrases: ["Toggle VPN in \(appname)"]
+                phrases: ["Toggle VPN in StosVPN"]
             )
         ]
     }
